@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - Number Guessing Game{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-card {
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid #9d4edd;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    
+    .profile-header {
+        background: linear-gradient(90deg, #6a0dad, #9d4edd);
+        color: white;
+        border-radius: 15px 15px 0 0;
+        padding: 15px;
+        font-weight: bold;
+    }
+    
+    .profile-icon {
+        font-size: 5rem;
+        color: #4cc9f0;
+        text-shadow: 0 0 15px rgba(76, 201, 240, 0.7);
+    }
+    
+    .stats-value {
+        color: #f72585;
+        text-shadow: 0 0 5px rgba(247, 37, 133, 0.7);
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    
+    .stats-label {
+        color: #ccc;
+        font-size: 0.9rem;
+    }
+    
+    .table-dark {
+        background-color: transparent;
+        color: white;
+    }
+    
+    .table-dark thead th {
+        background-color: rgba(106, 13, 173, 0.5);
+        border-color: #9d4edd;
+    }
+    
+    .table-dark tbody td {
+        border-color: rgba(157, 78, 221, 0.3);
+    }
+    
+    .badge-easy {
+        background-color: #198754;
+        box-shadow: 0 0 5px #198754;
+    }
+    
+    .badge-medium {
+        background-color: #ffc107;
+        box-shadow: 0 0 5px #ffc107;
+        color: black;
+    }
+    
+    .badge-expert {
+        background-color: #dc3545;
+        box-shadow: 0 0 5px #dc3545;
+    }
+    
+    .stats-box {
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 1px solid #9d4edd;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="profile-card h-100">
+                <div class="profile-header">
+                    <h3 class="mb-0">Profile</h3>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-user-circle profile-icon"></i>
+                    </div>
+                    <h4>{{ user_data.username }}</h4>
+                    <p class="text-muted">{{ user_data.email }}</p>
+                    
+                    <hr style="border-color: rgba(157, 78, 221, 0.3);">
+                    
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h5 class="stats-value">{{ user_stats.games_played|default:"0" }}</h5>
+                            <small class="stats-label">Games</small>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="stats-value">{{ user_stats.games_won|default:"0" }}</h5>
+                            <small class="stats-label">Wins</small>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="stats-value">{{ user_stats.best_score|default:"0" }}</h5>
+                            <small class="stats-label">Best Score</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8 mb-4">
+            <div class="profile-card h-100">
+                <div class="profile-header">
+                    <h3 class="mb-0">Game History</h3>
+                </div>
+                <div class="card-body">
+                    {% if game_history %}
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Difficulty</th>
+                                        <th>Score</th>
+                                        <th>Attempts</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for game in game_history %}
+                                        <tr>
+                                            <td>
+                                                {% if game.difficulty == 'easy' %}
+                                                    <span class="badge badge-easy">Easy</span>
+                                                {% elif game.difficulty == 'medium' %}
+                                                    <span class="badge badge-medium">Medium</span>
+                                                {% else %}
+                                                    <span class="badge badge-expert">Expert</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ game.score }}</td>
+                                            <td>{{ game.attempts }}</td>
+                                            <td>{{ game.date }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center p-4">
+                            <i class="fas fa-gamepad fa-4x mb-3" style="color: #4cc9f0; text-shadow: 0 0 10px #4cc9f0;"></i>
+                            <h4 style="color: #f72585; text-shadow: 0 0 5px #f72585;">No games played yet!</h4>
+                            <p>Start playing to see your game history here.</p>
+                            <a href="{% url 'game_levels' %}" class="btn mt-3" style="background: linear-gradient(90deg, #0066ff, #9d4edd); color: white; box-shadow: 0 0 10px rgba(0, 102, 255, 0.7);">
+                                <i class="fas fa-play me-2"></i> Play Now
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <h3 class="mb-0">Statistics</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="stats-box">
+                                <h5>Win Rate</h5>
+                                <h2 class="stats-value">
+                                    {% if user_stats.games_played %}
+                                        {{ user_stats.games_won|floatformat:0 }}%
+                                    {% else %}
+                                        0%
+                                    {% endif %}
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="stats-box">
+                                <h5>Average Score</h5>
+                                <h2 class="stats-value">
+                                    {% if game_history %}
+                                        {{ avg_score|default:"0" }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="stats-box">
+                                <h5>Favorite Difficulty</h5>
+                                <h2 class="stats-value">
+                                    {% if game_history %}
+                                        {{ favorite_difficulty|default:"None" }}
+                                    {% else %}
+                                        None
+                                    {% endif %}
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

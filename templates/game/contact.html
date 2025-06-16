@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Number Guessing Game{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-card {
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid #9d4edd;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+    
+    .contact-header {
+        background: linear-gradient(90deg, #6a0dad, #9d4edd);
+        color: white;
+        border-radius: 15px 15px 0 0;
+        padding: 15px;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .contact-icon {
+        font-size: 3rem;
+        color: #4cc9f0;
+        text-shadow: 0 0 10px rgba(76, 201, 240, 0.7);
+        margin-bottom: 15px;
+    }
+    
+    .contact-title {
+        color: #f72585;
+        text-shadow: 0 0 5px rgba(247, 37, 133, 0.7);
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    
+    .contact-box {
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 1px solid #9d4edd;
+        border-radius: 10px;
+        padding: 20px;
+        height: 100%;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .contact-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px rgba(157, 78, 221, 0.8);
+    }
+    
+    .social-icon {
+        color: white;
+        font-size: 1.5rem;
+        margin: 0 10px;
+        transition: all 0.3s;
+    }
+    
+    .social-icon:hover {
+        color: #f72585;
+        text-shadow: 0 0 10px #f72585;
+        transform: scale(1.2);
+    }
+    
+    .team-section {
+        margin-top: 40px;
+    }
+    
+    .team-title {
+        color: #f72585;
+        text-shadow: 0 0 5px rgba(247, 37, 133, 0.7);
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .team-member {
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 1px solid #9d4edd;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        height: 100%;
+    }
+    
+    .team-icon {
+        font-size: 4rem;
+        color: #4cc9f0;
+        text-shadow: 0 0 10px rgba(76, 201, 240, 0.7);
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="contact-card">
+        <div class="contact-header">
+            <h2 class="mb-0">Contact Us</h2>
+        </div>
+        <div class="card-body p-4">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="contact-box text-center">
+                        <i class="fas fa-envelope contact-icon"></i>
+                        <h3 class="contact-title">Email</h3>
+                        <p>support@numberguessinggame.com</p>
+                        <p>info@numberguessinggame.com</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-4">
+                    <div class="contact-box text-center">
+                        <i class="fas fa-phone contact-icon"></i>
+                        <h3 class="contact-title">Phone</h3>
+                        <p>+1 (555) 123-4567</p>
+                        <p>Mon-Fri: 9am - 5pm EST</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="contact-box text-center">
+                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                        <h3 class="contact-title">Address</h3>
+                        <p>123 Game Street</p>
+                        <p>Tech City, CA 90210</p>
+                        <p>United States</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-4">
+                    <div class="contact-box text-center">
+                        <i class="fas fa-users contact-icon"></i>
+                        <h3 class="contact-title">Social Media</h3>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-discord"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="team-section">
+        <h3 class="team-title">Meet the Team</h3>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="team-member">
+                    <i class="fas fa-user-circle team-icon"></i>
+                    <h4>Alex Johnson</h4>
+                    <p class="text-muted">Lead Developer</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="team-member">
+                    <i class="fas fa-user-circle team-icon"></i>
+                    <h4>Sam Taylor</h4>
+                    <p class="text-muted">UI/UX Designer</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="team-member">
+                    <i class="fas fa-user-circle team-icon"></i>
+                    <h4>Jamie Smith</h4>
+                    <p class="text-muted">Game Architect</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

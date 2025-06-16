@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Feedback - Number Guessing Game{% endblock %}
+
+{% block extra_css %}
+<style>
+    .feedback-card {
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid #9d4edd;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+        overflow: hidden;
+        margin-top: 30px;
+    }
+    
+    .feedback-header {
+        background: linear-gradient(90deg, #6a0dad, #9d4edd);
+        color: white;
+        border-radius: 15px 15px 0 0;
+        padding: 15px;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid #9d4edd;
+        color: white;
+        border-radius: 8px;
+    }
+    
+    .form-control:focus {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-color: #f72585;
+        box-shadow: 0 0 0 0.25rem rgba(247, 37, 133, 0.25);
+        color: white;
+    }
+    
+    .form-label {
+        color: #f72585;
+        font-weight: bold;
+    }
+    
+    .submit-btn {
+        background-color: #ff0844;
+        border: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 25px;
+        padding: 10px 20px;
+        box-shadow: 0 0 10px rgba(255, 8, 68, 0.7);
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    .submit-btn:hover {
+        box-shadow: 0 0 20px rgba(255, 8, 68, 0.9);
+        background-color: #ff3366;
+    }
+    
+    .intro-text {
+        color: #ccc;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="feedback-card">
+                <div class="feedback-header">
+                    <h2 class="mb-0">Submit Feedback</h2>
+                </div>
+                <div class="card-body p-4">
+                    <p class="intro-text">We value your feedback! Let us know what you think about the game.</p>
+                    
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="id_name" class="form-label">Your Name</label>
+                            <input type="text" name="name" class="form-control" id="id_name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Your Email</label>
+                            <input type="email" name="email" class="form-control" id="id_email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_message" class="form-label">Your Feedback</label>
+                            <textarea name="message" class="form-control" id="id_message" rows="5" required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_rating" class="form-label">Rating (1-5)</label>
+                            <input type="number" name="rating" class="form-control" id="id_rating" min="1" max="5" required>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane me-2"></i> Submit Feedback
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

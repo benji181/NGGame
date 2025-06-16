@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Playing {{ difficulty|title }} - Number Guessing Game{% endblock %}
+
+{% block extra_css %}
+<style>
+    .game-card {
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid #9d4edd;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+        margin-bottom: 20px;
+    }
+    
+    .game-card-header {
+        background: linear-gradient(90deg, #6a0dad, #9d4edd);
+        color: white;
+        border-radius: 15px 15px 0 0;
+        padding: 15px;
+        font-weight: bold;
+    }
+    
+    .progress {
+        background-color: rgba(255, 255, 255, 0.1);
+        height: 25px;
+        border-radius: 15px;
+    }
+    
+    .progress-bar {
+        background: linear-gradient(90deg, #0066ff, #9d4edd);
+        border-radius: 15px;
+    }
+    
+    .guess-input {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid #9d4edd;
+        color: white;
+        border-radius: 8px;
+        padding: 10px;
+    }
+    
+    .submit-btn {
+        background-color: #ff0844;
+        border: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 8px;
+        padding: 10px 20px;
+        box-shadow: 0 0 10px rgba(255, 8, 68, 0.7);
+    }
+    
+    .status-card {
+        border: 2px solid #9d4edd;
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.7);
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        padding: 20px;
+    }
+    
+    .hint-too-high {
+        color: #ff0844;
+        text-shadow: 0 0 5px #ff0844;
+    }
+    
+    .hint-too-low {
+        color: #0066ff;
+        text-shadow: 0 0 5px #0066ff;
+    }
+    
+    .hint-correct {
+        color: #4cc9f0;
+        text-shadow: 0 0 5px #4cc9f0;
+        font-weight: bold;
+    }
+    
+    .table-dark {
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+    }
+    
+    .table-dark thead th {
+        background-color: rgba(106, 13, 173, 0.5);
+        border-color: #9d4edd;
+    }
+    
+    .table-dark tbody td {
+        border-color: rgba(157, 78, 221, 0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="game-card">
+                <div class="game-card-header d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">{{ difficulty|title }} Mode</h2>
+                    <span class="badge bg-primary">Range: {{ range.min }} - {{ range.max }}</span>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <h4 class="me-2 mb-0">Attempts:</h4>
+                                <div class="progress flex-grow-1">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: {{ game_data.attempts|floatformat:0 }}0%;" 
+                                         aria-valuenow="{{ game_data.attempts }}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="{{ game_data.max_attempts }}">
+                                        {{ game_data.attempts }} / {{ game_data.max_attempts }}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {% if not game_data.game_over %}
+                                <form method="post" novalidate>
+                                    {% csrf_token %}
+                                    <div class="input-group mb-3">
+                                        {{ form.guess }}
+                                        <button type="submit" class="submit-btn">
+                                            <i class="fas fa-check-circle me-2"></i> Submit Guess
+                                        </button>
+                                    </div>
+                                    {% if form.guess.errors %}
+                                        <div class="text-danger">
+                                            {{ form.guess.errors }}
+                                        </div>
+                                    {% endif %}
+                                </form>
+                            {% else %}
+                                <div class="d-grid gap-2">
+                                    <a href="{% url 'reset_game' %}" class="btn start-btn">
+                                        <i class="fas fa-redo me-2"></i> Play Again
+                                    </a>
+                                    <a href="{% url 'game_levels' %}" class="btn btn-outline-light">
+                                        <i class="fas fa-list me-2"></i> Choose Another Level
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="status-card text-center">
+                                <h4>Game Status</h4>
+                                {% if game_data.game_over %}
+                                    {% if game_data.won %}
+                                        <div style="background-color: rgba(25, 135, 84, 0.3); border-color: #198754; padding: 15px; border-radius: 10px;">
+                                            <i class="fas fa-trophy fa-3x mb-3 text-warning"></i>
+                                            <h3>Congratulations!</h3>
+                                            <p>You guessed the number in {{ game_data.attempts }} attempts.</p>
+                                            <h4>Your Score: {{ game_data.score }}</h4>
+                                        </div>
+                                    {% else %}
+                                        <div style="background-color: rgba(220, 53, 69, 0.3); border-color: #dc3545; padding: 15px; border-radius: 10px;">
+                                            <i class="fas fa-times-circle fa-3x mb-3 text-danger"></i>
+                                            <h3>Game Over!</h3>
+                                            <p>You've used all {{ game_data.max_attempts }} attempts.</p>
+                                            <p>The number was {{ game_data.secret_number }}.</p>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <div style="background-color: rgba(13, 202, 240, 0.3); border-color: #0dcaf0; padding: 15px; border-radius: 10px;">
+                                        <i class="fas fa-question-circle fa-3x mb-3 text-info"></i>
+                                        <h3>Guess the Number!</h3>
+                                        <p>Enter a number between {{ range.min }} and {{ range.max }}</p>
+                                        <p>Attempts left: {{ game_data.max_attempts|add:"-"|add:game_data.attempts }}</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if game_data.guesses %}
+                        <h4 style="color: #f72585; text-shadow: 0 0 10px rgba(247, 37, 133, 0.7);" class="mb-3">Guess History</h4>
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Guess</th>
+                                        <th>Hint</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for guess in game_data.guesses %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ guess.number }}</td>
+                                            <td>
+                                                {% if guess.hint == "Too High" %}
+                                                    <span class="hint-too-high">
+                                                        <i class="fas fa-arrow-down me-1"></i> {{ guess.hint }}
+                                                    </span>
+                                                {% elif guess.hint == "Too Low" %}
+                                                    <span class="hint-too-low">
+                                                        <i class="fas fa-arrow-up me-1"></i> {{ guess.hint }}
+                                                    </span>
+                                                {% else %}
+                                                    <span class="hint-correct">
+                                                        <i class="fas fa-check-circle me-1"></i> {{ guess.hint }}
+                                                    </span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

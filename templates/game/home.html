@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Number Guessing Game{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section - exact match to screenshot -->
+    <div class="hero-section text-center">
+        <h1 class="hero-title">Welcome to the Ultimate Number Guessing Challenge!</h1>
+        <p class="hero-subtitle">Test your skills, beat the odds, and climb to the top of the leader-board.</p>
+    </div>
+    
+    <!-- Play Now Button - exact match to screenshot -->
+    <div class="text-center">
+        <a href="{% url 'game_levels' %}" class="play-now-btn">
+            PLAY NOW!!
+        </a>
+    </div>
+    
+    <!-- Game Instructions - exact match to screenshot -->
+    <div class="game-instructions">
+        <h3>How to Play:</h3>
+        <ul>
+            <li>Choose a difficulty level: Easy (0-99), Medium (0-999), or Expert (0-9999).</li>
+            <li>A secret number will be randomly generated.</li>
+            <li>Enter your guess and receive hints:</li>
+            <li>"Too High" if your guess is greater than the number.</li>
+            <li>"Too Low" if your guess is less than the number.</li>
+            <li>You have a limited number of attempts (e.g., 10) to guess correctly.</li>
+            <li>The faster you guess, the higher your score!</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}Leaderboard - Number Guessing Game{% endblock %}
+
+{% block extra_css %}
+<style>
+    .leaderboard-card {
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid #9d4edd;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+        overflow: hidden;
+        margin-top: 30px;
+    }
+    
+    .leaderboard-header {
+        background: linear-gradient(90deg, #6a0dad, #9d4edd);
+        color: white;
+        border-radius: 15px 15px 0 0;
+        padding: 15px;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .table-dark {
+        background-color: transparent;
+        color: white;
+        border-color: rgba(157, 78, 221, 0.3);
+    }
+    
+    .table-dark thead th {
+        background-color: rgba(106, 13, 173, 0.5);
+        border-color: #9d4edd;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+    }
+    
+    .table-dark tbody td {
+        border-color: rgba(157, 78, 221, 0.3);
+    }
+    
+    .trophy-icon {
+        color: gold;
+        text-shadow: 0 0 10px gold;
+    }
+    
+    .medal-icon {
+        color: silver;
+        text-shadow: 0 0 10px silver;
+    }
+    
+    .bronze-icon {
+        color: #cd7f32;
+        text-shadow: 0 0 10px #cd7f32;
+    }
+    
+    .badge-easy {
+        background-color: #198754;
+        box-shadow: 0 0 5px #198754;
+    }
+    
+    .badge-medium {
+        background-color: #ffc107;
+        box-shadow: 0 0 5px #ffc107;
+        color: black;
+    }
+    
+    .badge-expert {
+        background-color: #dc3545;
+        box-shadow: 0 0 5px #dc3545;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="leaderboard-card">
+        <div class="leaderboard-header">
+            <h2 class="mb-0">Global Leaderboard</h2>
+        </div>
+        <div class="card-body p-4">
+            {% if leaderboard %}
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Score</th>
+                                <th>Difficulty</th>
+                                <th>Attempts</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in leaderboard %}
+                                <tr>
+                                    <td>
+                                        {% if forloop.counter == 1 %}
+                                            <i class="fas fa-trophy trophy-icon"></i>
+                                        {% elif forloop.counter == 2 %}
+                                            <i class="fas fa-medal medal-icon"></i>
+                                        {% elif forloop.counter == 3 %}
+                                            <i class="fas fa-award bronze-icon"></i>
+                                        {% else %}
+                                            {{ forloop.counter }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ entry.username }}</td>
+                                    <td>{{ entry.score }}</td>
+                                    <td>
+                                        {% if entry.difficulty == 'easy' %}
+                                            <span class="badge badge-easy">Easy</span>
+                                        {% elif entry.difficulty == 'medium' %}
+                                            <span class="badge badge-medium">Medium</span>
+                                        {% else %}
+                                            <span class="badge badge-expert">Expert</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ entry.attempts }}</td>
+                                    <td>{{ entry.date }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center p-5">
+                    <i class="fas fa-trophy fa-4x mb-3" style="color: #f72585; text-shadow: 0 0 10px #f72585;"></i>
+                    <h3 style="color: #f72585; text-shadow: 0 0 5px #f72585;">No scores yet!</h3>
+                    <p>Be the first to play and get on the leaderboard.</p>
+                    <a href="{% url 'game_levels' %}" class="btn mt-3" style="background: linear-gradient(90deg, #0066ff, #9d4edd); color: white; box-shadow: 0 0 10px rgba(0, 102, 255, 0.7);">
+                        <i class="fas fa-gamepad me-2"></i> Play Now
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

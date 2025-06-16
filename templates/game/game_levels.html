@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Choose Level - Number Guessing Game{% endblock %}
+
+{% block extra_css %}
+<style>
+    .difficulty-card {
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid #9d4edd;
+        border-radius: 15px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+    
+    .difficulty-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 0 25px rgba(247, 37, 133, 0.8);
+    }
+    
+    .difficulty-title {
+        color: #f72585;
+        text-shadow: 0 0 10px rgba(247, 37, 133, 0.7);
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    
+    .star-rating {
+        margin: 20px 0;
+    }
+    
+    .start-btn {
+        background: linear-gradient(90deg, #0066ff, #9d4edd);
+        border: none;
+        color: white;
+        font-weight: bold;
+        padding: 8px 20px;
+        border-radius: 25px;
+        box-shadow: 0 0 15px rgba(0, 102, 255, 0.7);
+        transition: all 0.3s ease;
+    }
+    
+    .start-btn:hover {
+        box-shadow: 0 0 25px rgba(0, 102, 255, 0.9);
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-5" style="color: #f72585; text-shadow: 0 0 10px rgba(247, 37, 133, 0.7);">Choose Your Difficulty Level</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="difficulty-card text-center" onclick="window.location='{% url 'play_game' 'easy' %}'">
+                <h2 class="difficulty-title">Easy</h2>
+                <div class="star-rating">
+                    <i class="fas fa-star fa-2x text-warning"></i>
+                    <i class="fas fa-star-half-alt fa-2x text-secondary"></i>
+                    <i class="far fa-star fa-2x text-secondary"></i>
+                </div>
+                <p>Range: 0-99</p>
+                <p>Perfect for beginners</p>
+                <div class="mt-4">
+                    <a href="{% url 'play_game' 'easy' %}" class="btn start-btn">
+                        <i class="fas fa-play me-2"></i> Start Game
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="difficulty-card text-center" onclick="window.location='{% url 'play_game' 'medium' %}'">
+                <h2 class="difficulty-title">Medium</h2>
+                <div class="star-rating">
+                    <i class="fas fa-star fa-2x text-warning"></i>
+                    <i class="fas fa-star fa-2x text-warning"></i>
+                    <i class="far fa-star fa-2x text-secondary"></i>
+                </div>
+                <p>Range: 0-999</p>
+                <p>For experienced players</p>
+                <div class="mt-4">
+                    <a href="{% url 'play_game' 'medium' %}" class="btn start-btn">
+                        <i class="fas fa-play me-2"></i> Start Game
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="difficulty-card text-center" onclick="window.location='{% url 'play_game' 'hard' %}'">
+                <h2 class="difficulty-title">Expert</h2>
+                <div class="star-rating">
+                    <i class="fas fa-star fa-2x text-warning"></i>
+                    <i class="fas fa-star fa-2x text-warning"></i>
+                    <i class="fas fa-star fa-2x text-warning"></i>
+                </div>
+                <p>Range: 0-9999</p>
+                <p>For true masters</p>
+                <div class="mt-4">
+                    <a href="{% url 'play_game' 'hard' %}" class="btn start-btn">
+                        <i class="fas fa-play me-2"></i> Start Game
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

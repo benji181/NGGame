@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Sign Up - Number Guessing Game{% endblock %}
+
+{% block extra_css %}
+<style>
+    .signup-card {
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid #9d4edd;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+        margin-top: 50px;
+        overflow: hidden;
+    }
+    
+    .signup-header {
+        background: linear-gradient(90deg, #6a0dad, #9d4edd);
+        color: white;
+        border-radius: 15px 15px 0 0;
+        padding: 15px;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .signup-btn {
+        background-color: #ff0844;
+        border: none;
+        color: white;
+        font-weight: bold;
+        border-radius: 25px;
+        padding: 10px 20px;
+        box-shadow: 0 0 10px rgba(255, 8, 68, 0.7);
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    .signup-btn:hover {
+        box-shadow: 0 0 20px rgba(255, 8, 68, 0.9);
+        background-color: #ff3366;
+    }
+    
+    .form-control {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid #9d4edd;
+        color: white;
+        border-radius: 8px;
+    }
+    
+    .form-control:focus {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-color: #f72585;
+        box-shadow: 0 0 0 0.25rem rgba(247, 37, 133, 0.25);
+        color: white;
+    }
+    
+    .form-label {
+        color: #f72585;
+        font-weight: bold;
+    }
+    
+    .login-link {
+        color: #4cc9f0;
+        text-decoration: none;
+    }
+    
+    .login-link:hover {
+        text-shadow: 0 0 5px #4cc9f0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="signup-card">
+                <div class="signup-header">
+                    <h2 class="mb-0">Sign Up</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" id="id_username" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" id="id_email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_password" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="id_password" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="id_confirm_password" class="form-label">Confirm Password</label>
+                            <input type="password" name="confirm_password" class="form-control" id="id_confirm_password" required>
+                        </div>
+                        
+                        <button type="submit" class="signup-btn">
+                            <i class="fas fa-user-plus me-2"></i> Create Account
+                        </button>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <p>Already have an account? <a href="{% url 'login' %}" class="login-link">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
